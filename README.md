@@ -46,7 +46,8 @@ This model shall predict the safest states for succeptible populations (respirat
 	- 01_Data_Pull_EDA_AQI_Prediction.ipynb
 
 •	Credits & References
-	1	United States Environmental Protection Agency: https://aqs.epa.gov/aqsweb/airdata/download_files.html
+		
+	1   United States Environmental Protection Agency: https://aqs.epa.gov/aqsweb/airdata/download_files.html
 	2	Kaggle for Daily AQI: https://www.kaggle.com/datasets/threnjen/40-years-of-air-quality-index-from-the-epa-daily
 	3	Data Dictionary: https://aqs.epa.gov/aqsweb/airdata/FileFormats.html
 
