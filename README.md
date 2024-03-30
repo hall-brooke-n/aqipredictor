@@ -44,6 +44,8 @@ This model shall predict the safest states for succeptible populations (respirat
 
 •	Notebooks
 	- 01_Data_Pull_EDA_AQI_Prediction.ipynb
+	- 02_Model.ipynb
+	- timeseries.yml - kernel for both notebooks
 
 •	Credits & References
 		
