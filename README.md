@@ -40,12 +40,12 @@ This model shall predict the safest states for succeptible populations (respirat
 ## Project Organization
 
 •	Data
-	 - Link to the dataset in Google Drive: https://drive.google.com/drive/folders/1Qh8JM_xaESutNF0Y1V1Fn3nYpuVVA1SW?usp=sharing 
+	 - Link to the datasets in Google Drive: https://drive.google.com/drive/folders/1Qh8JM_xaESutNF0Y1V1Fn3nYpuVVA1SW?usp=sharing 
 
 •	Notebooks
 	- 01_Data_Pull_EDA_AQI_Prediction.ipynb
-	- 02_Model.ipynb
-	- timeseries.yml - kernel for both notebooks
+	- 02_Preliminary_Modeling.ipynb
+	- timeseries.yml - kernel for notebooks
 
 •	Credits & References
 		
