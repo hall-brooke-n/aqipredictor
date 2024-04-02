@@ -47,6 +47,9 @@ This model shall predict the safest states for succeptible populations (respirat
 	- 02_Preliminary_Modeling.ipynb
 	- timeseries.yml - kernel for notebooks
 
+•	Models
+	- Optimized univariate prophet models (1 per state)
+
 •	Credits & References
 		
 	1   United States Environmental Protection Agency: https://aqs.epa.gov/aqsweb/airdata/download_files.html
