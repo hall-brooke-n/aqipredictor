@@ -48,7 +48,10 @@ This model shall predict the safest states for succeptible populations (respirat
 	- timeseries.yml - kernel for notebooks
 
 •	Models
-	- Optimized univariate prophet models (1 per state)
+	- Optimized univariate prophet models (1 per US state)
+	
+•	Streamlit
+	- The start of a streamlit script for data interactivity
 
 •	Credits & References
 		
