@@ -1,296 +1,128 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": 15,
-   "id": "6b155b89",
-   "metadata": {},
-   "outputs": [
-    {
-     "data": {
-      "text/html": [
-       "<div>\n",
-       "<style scoped>\n",
-       "    .dataframe tbody tr th:only-of-type {\n",
-       "        vertical-align: middle;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe tbody tr th {\n",
-       "        vertical-align: top;\n",
-       "    }\n",
-       "\n",
-       "    .dataframe thead th {\n",
-       "        text-align: right;\n",
-       "    }\n",
-       "</style>\n",
-       "<table border=\"1\" class=\"dataframe\">\n",
-       "  <thead>\n",
-       "    <tr style=\"text-align: right;\">\n",
-       "      <th></th>\n",
-       "      <th>State Name</th>\n",
-       "      <th>Month_Date</th>\n",
-       "      <th>Parameter Name</th>\n",
-       "      <th>Total_Observations</th>\n",
-       "      <th>PercentMean_Observations</th>\n",
-       "      <th>Parameter_Scaled</th>\n",
-       "      <th>Parameter_RawMean</th>\n",
-       "      <th>Directory Path</th>\n",
-       "      <th>AQI__mean</th>\n",
-       "      <th>AQI__max</th>\n",
-       "      <th>...</th>\n",
-       "      <th>AQI Category Sentiment_Unhealthy__sum</th>\n",
-       "      <th>AQI Category Sentiment_Unhealthy for Sensitive Groups__sum</th>\n",
-       "      <th>AQI Category Sentiment_Very Unhealthy__sum</th>\n",
-       "      <th>AQI Defining Parameter_CO__sum</th>\n",
-       "      <th>AQI Defining Parameter_NO2__sum</th>\n",
-       "      <th>AQI Defining Parameter_Ozone__sum</th>\n",
-       "      <th>AQI Defining Parameter_PM10__sum</th>\n",
-       "      <th>AQI Defining Parameter_PM2.5__sum</th>\n",
-       "      <th>Latitude</th>\n",
-       "      <th>Longitude</th>\n",
-       "    </tr>\n",
-       "  </thead>\n",
-       "  <tbody>\n",
-       "    <tr>\n",
-       "      <th>0</th>\n",
-       "      <td>Alabama</td>\n",
-       "      <td>2011-01-01</td>\n",
-       "      <td>Barometric pressure</td>\n",
-       "      <td>744</td>\n",
-       "      <td>100</td>\n",
-       "      <td>0.528</td>\n",
-       "      <td>993.507</td>\n",
-       "      <td>dailyPressure/</td>\n",
-       "      <td>36.840</td>\n",
-       "      <td>87</td>\n",
-       "      <td>...</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>2</td>\n",
-       "      <td>0</td>\n",
-       "      <td>27</td>\n",
-       "      <td>33</td>\n",
-       "      <td>175</td>\n",
-       "      <td>32.437</td>\n",
-       "      <td>-86.473</td>\n",
-       "    </tr>\n",
-       "    <tr>\n",
-       "      <th>1</th>\n",
-       "      <td>Alabama</td>\n",
-       "      <td>2011-02-01</td>\n",
-       "      <td>Barometric pressure</td>\n",
-       "      <td>649</td>\n",
-       "      <td>96</td>\n",
-       "      <td>0.509</td>\n",
-       "      <td>995.169</td>\n",
-       "      <td>dailyPressure/</td>\n",
-       "      <td>43.337</td>\n",
-       "      <td>105</td>\n",
-       "      <td>...</td>\n",
-       "      <td>0</td>\n",
-       "      <td>1</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>0</td>\n",
-       "      <td>26</td>\n",
-       "      <td>15</td>\n",
-       "      <td>161</td>\n",
-       "      <td>32.437</td>\n",
-       "      <td>-86.473</td>\n",
-       "    </tr>\n",
-       "  </tbody>\n",
-       "</table>\n",
-       "<p>2 rows × 25 columns</p>\n",
-       "</div>"
-      ],
-      "text/plain": [
-       "  State Name Month_Date       Parameter Name  Total_Observations  \\\n",
-       "0    Alabama 2011-01-01  Barometric pressure                 744   \n",
-       "1    Alabama 2011-02-01  Barometric pressure                 649   \n",
-       "\n",
-       "   PercentMean_Observations  Parameter_Scaled  Parameter_RawMean  \\\n",
-       "0                       100             0.528            993.507   \n",
-       "1                        96             0.509            995.169   \n",
-       "\n",
-       "   Directory Path  AQI__mean  AQI__max  ...  \\\n",
-       "0  dailyPressure/     36.840        87  ...   \n",
-       "1  dailyPressure/     43.337       105  ...   \n",
-       "\n",
-       "   AQI Category Sentiment_Unhealthy__sum  \\\n",
-       "0                                      0   \n",
-       "1                                      0   \n",
-       "\n",
-       "   AQI Category Sentiment_Unhealthy for Sensitive Groups__sum  \\\n",
-       "0                                                  0            \n",
-       "1                                                  1            \n",
-       "\n",
-       "   AQI Category Sentiment_Very Unhealthy__sum  AQI Defining Parameter_CO__sum  \\\n",
-       "0                                           0                               2   \n",
-       "1                                           0                               0   \n",
-       "\n",
-       "   AQI Defining Parameter_NO2__sum  AQI Defining Parameter_Ozone__sum  \\\n",
-       "0                                0                                 27   \n",
-       "1                                0                                 26   \n",
-       "\n",
-       "   AQI Defining Parameter_PM10__sum  AQI Defining Parameter_PM2.5__sum  \\\n",
-       "0                                33                                175   \n",
-       "1                                15                                161   \n",
-       "\n",
-       "   Latitude  Longitude  \n",
-       "0    32.437    -86.473  \n",
-       "1    32.437    -86.473  \n",
-       "\n",
-       "[2 rows x 25 columns]"
-      ]
-     },
-     "execution_count": 15,
-     "metadata": {},
-     "output_type": "execute_result"
-    }
-   ],
-   "source": [
-    "import streamlit as st\n",
-    "import numpy as np\n",
-    "import pandas as pd\n",
-    "import altair as alt\n",
-    "\n",
-    "# Page title\n",
-    "st.set_page_config(page_title='Interactive Data Explorer', page_icon='📊')\n",
-    "st.title('📊 Interactive Data Explorer')\n",
-    "\n",
-    "with st.expander('About this app'):\n",
-    "  st.markdown('**What can this app do?**')\n",
-    "  st.info('This app shows the use of Pandas for data wrangling, Altair for chart creation and editable dataframe for data interaction.')\n",
-    "  st.markdown('**How to use the app?**')\n",
-    "  st.warning('To engage with the app, 1. Select genres of your interest in the drop-down selection box and then 2. Select the year duration from the slider widget. As a result, this should generate an updated editable DataFrame and line plot.')\n",
-    "  \n",
-    "st.subheader('Which Movie Genre performs ($) best at the box office?')\n",
-    "\n",
-    "# Load data\n",
-    "df = pd.read_csv('/Users/brookehall/Documents/data/merged_df.csv', index_col = 0, parse_dates = ['Month_Date'])\n",
-    "df.head(2)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 17,
-   "id": "41512784",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "# Input widgets\n",
-    "## Genres selection\n",
-    "states_list = df['State Name'].unique()\n",
-    "states_selection = st.selectbox('Select state', states_list)\n",
-    "\n",
-    "\n",
-    "## Year selection\n",
-    "year_list = df['Month_Date'].dt.year.unique()\n",
-    "year_selection = st.slider('Select year duration', 1986, 2006, (2000, 2016))\n",
-    "year_selection_list = list(np.arange(year_selection[0], year_selection[1]+1))"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "05362b25",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "df.year = df.year.astype('int')\n",
-    "\n",
-    "# Input widgets\n",
-    "## Genres selection\n",
-    "states_list = df.genre.unique()\n",
-    "genres_selection = st.multiselect('Select genres', genres_list, ['Action', 'Adventure', 'Biography', 'Comedy', 'Drama', 'Horror'])\n",
-    "\n",
-    "## Year selection\n",
-    "year_list = df.year.unique()\n",
-    "year_selection = st.slider('Select year duration', 1986, 2006, (2000, 2016))\n",
-    "year_selection_list = list(np.arange(year_selection[0], year_selection[1]+1))\n",
-    "\n",
-    "df_selection = df[df.genre.isin(genres_selection) & df['year'].isin(year_selection_list)]\n",
-    "reshaped_df = df_selection.pivot_table(index='year', columns='genre', values='gross', aggfunc='sum', fill_value=0)\n",
-    "reshaped_df = reshaped_df.sort_values(by='year', ascending=False)\n",
-    "\n",
-    "\n",
-    "# Display DataFrame\n",
-    "\n",
-    "df_editor = st.data_editor(reshaped_df, height=212, use_container_width=True,\n",
-    "                            column_config={\"year\": st.column_config.TextColumn(\"Year\")},\n",
-    "                            num_rows=\"dynamic\")\n",
-    "df_chart = pd.melt(df_editor.reset_index(), id_vars='year', var_name='genre', value_name='gross')\n",
-    "\n",
-    "# Display chart\n",
-    "chart = alt.Chart(df_chart).mark_line().encode(\n",
-    "            x=alt.X('year:N', title='Year'),\n",
-    "            y=alt.Y('gross:Q', title='Gross earnings ($)'),\n",
-    "            color='genre:N'\n",
-    "            ).properties(height=320)\n",
-    "st.altair_chart(chart, use_container_width=True)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "0f12e983",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "25a46ebc",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "241ffd1b",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "61d48ce5",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "917c49e5",
-   "metadata": {},
-   "outputs": [],
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3 (ipykernel)",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.11.8"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+### KICKOFF - CODING AN APP IN STREAMLIT
+
+#conda install -c conda-forge streamlit
+
+### import libraries
+import pandas as pd
+import streamlit as st
+import joblib
+
+st.write('Streamlit is an open-source app framework for Machine Learning and Data Science teams. For the docs, please click [here](https://docs.streamlit.io/en/stable/api.html). \
+    This is is just a very small window into its capabilities.')
+
+
+#######################################################################################################################################
+### LAUNCHING THE APP ON THE LOCAL MACHINE
+### 1. Save your *.py file (the file and the dataset should be in the same folder)
+### 2. Open git bash (Windows) or Terminal (MAC) and navigate (cd) to the folder containing the *.py and *.csv files
+### 3. Execute... streamlit run <name_of_file.py>
+### 4. The app will launch in your browser. A 'Rerun' button will appear every time you SAVE an update in the *.py file
+
+
+
+#######################################################################################################################################
+### Create a title
+
+st.title("Kickoff - Live coding an app")
+
+# Press R in the app to refresh after changing the code and saving here
+
+### You can try each method by uncommenting each of the lines of code in this section in turn and rerunning the app
+
+### You can also use markdown syntax.
+#st.write('# Our last morning kick off :sob:')
+
+### To position text and color, you can use html syntax
+#st.markdown("<h1 style='text-align: center; color: blue;'>Our last morning kick off</h1>", unsafe_allow_html=True)
+
+
+#######################################################################################################################################
+### DATA LOADING
+
+### A. define function to load data
+@st.cache_data # <- add decorators after tried running the load multiple times
+def load_data(path, num_rows):
+
+    df = pd.read_csv(path, nrows=num_rows)
+
+    # Streamlit will only recognize 'latitude' or 'lat', 'longitude' or 'lon', as coordinates
+
+    df = df.rename(columns={'Start Station Latitude': 'lat', 'Start Station Longitude': 'lon'})     
+    df['Start Time'] = pd.to_datetime(df['Start Time'])      # reset dtype for column
+     
+    return df
+
+### B. Load first 50K rows
+df = load_data("NYC_bikes_small.csv", 50000)
+
+### C. Display the dataframe in the app
+st.dataframe(df)
+
+
+#######################################################################################################################################
+### STATION MAP
+
+st.subheader('Location Map - NYC bike stations')      
+
+st.map(df)   
+
+
+#######################################################################################################################################
+### DATA ANALYSIS & VISUALIZATION
+
+### B. Add filter on side bar after initial bar chart constructed
+
+st.sidebar.subheader("Usage filters")
+round_trip = st.sidebar.checkbox('Round trips only')
+
+if round_trip:
+    df = df[df['Start Station ID'] == df['End Station ID']]
+
+
+### A. Add a bar chart of usage per hour
+
+st.subheader("Daily usage per hour")
+
+counts = df["Start Time"].dt.hour.value_counts()
+st.bar_chart(counts)
+
+
+### The features we have used here are very basic. Most Python libraries can be imported as in Jupyter Notebook so the possibilities are vast.
+#### Visualizations can be rendered using matplotlib, seaborn, plotly etc.
+#### Models can be imported using *.pkl files (or similar) so predictions, classifications etc can be done within the app using previously optimized models
+#### Automating processes and handling real-time data
+
+
+#######################################################################################################################################
+### MODEL INFERENCE
+
+st.subheader("Using pretrained models with user input")
+
+# A. Load the model using joblib
+model = joblib.load('sentiment_pipeline.pkl')
+
+# B. Set up input field
+text = st.text_input('Enter your review text below', 'Best. Restaurant. Ever.')
+
+# C. Use the model to predict sentiment & write result
+prediction = model.predict({text})
+
+if prediction == 1:
+    st.write('We predict that this is a positive review!')
+else:
+    st.write('We predict that this is a negative review!')
+
+
+
+#######################################################################################################################################
+### Streamlit Advantages and Disadvantages
+    
+st.subheader("Streamlit Advantages and Disadvantages")
+st.write('**Advantages**')
+st.write(' - Easy, Intuitive, Pythonic')
+st.write(' - Free!')
+st.write(' - Requires no knowledge of front end languages')
+st.write('**Disadvantages**')
+st.write(' - Apps all look the same')
+st.write(' - Not very customizable')
+st.write(' - A little slow. Not good for MLOps, therefore not scalable')
