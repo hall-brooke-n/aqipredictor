@@ -7,9 +7,6 @@ import pandas as pd
 import streamlit as st
 import joblib
 
-st.write('Streamlit is an open-source app framework for Machine Learning and Data Science teams. For the docs, please click [here](https://docs.streamlit.io/en/stable/api.html). \
-    This is is just a very small window into its capabilities.')
-
 
 #######################################################################################################################################
 ### LAUNCHING THE APP ON THE LOCAL MACHINE
@@ -23,7 +20,8 @@ st.write('Streamlit is an open-source app framework for Machine Learning and Dat
 #######################################################################################################################################
 ### Create a title
 
-st.title("Kickoff - Live coding an app")
+st.title("Air Quality Index Predictor")
+st.write('The included models predict aqi depending on environmental monitoring factors.')
 
 # Press R in the app to refresh after changing the code and saving here
 
@@ -43,17 +41,17 @@ st.title("Kickoff - Live coding an app")
 @st.cache_data # <- add decorators after tried running the load multiple times
 def load_data(path, num_rows):
 
-    df = pd.read_csv(path, nrows=num_rows)
+    df = pd.read_csv(path, index_col = 0, nrows=num_rows).set_index('Month_Date')
 
     # Streamlit will only recognize 'latitude' or 'lat', 'longitude' or 'lon', as coordinates
 
-    df = df.rename(columns={'Start Station Latitude': 'lat', 'Start Station Longitude': 'lon'})     
-    df['Start Time'] = pd.to_datetime(df['Start Time'])      # reset dtype for column
+    #df = df.rename(columns={'Start Station Latitude': 'lat', 'Start Station Longitude': 'lon'})     
+    #df['Start Time'] = pd.to_datetime(df['Start Time'])      # reset dtype for column
      
     return df
 
 ### B. Load first 50K rows
-df = load_data("NYC_bikes_small.csv", 50000)
+df = load_data("/Users/brookehall/Documents/data/aqi_multivar.csv", 50000)
 
 ### C. Display the dataframe in the app
 st.dataframe(df)
@@ -62,9 +60,9 @@ st.dataframe(df)
 #######################################################################################################################################
 ### STATION MAP
 
-st.subheader('Location Map - NYC bike stations')      
+st.subheader('Unites States Location Map')      
 
-st.map(df)   
+#st.map(df)   
 
 
 #######################################################################################################################################
@@ -81,9 +79,9 @@ if round_trip:
 
 ### A. Add a bar chart of usage per hour
 
-st.subheader("Daily usage per hour")
+st.subheader("Monthly Usage")
 
-counts = df["Start Time"].dt.hour.value_counts()
+counts = df["Month_Date"].dt.year.value_counts()
 st.bar_chart(counts)
 
 
