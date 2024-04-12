@@ -53,7 +53,7 @@ def load_data(path, num_rows):
     return df
 
 ### B. Load first 50K rows
-df = load_data("/Users/brookehall/Documents/models/best_prophet/final_forecast_dataset.csv", 50000)
+df = load_data("/Users/brookehall/Documents/data/final_forecast_dataset_multivar.csv", 50000)
 
 # Load Sentiment
 #path2 = '/Users/brookehall/Desktop/Brainstation/Deliverables/CapstoneFolder/capstoneWorking/data/cleanData/'
@@ -163,6 +163,26 @@ st.plotly_chart(fig)
 #if states_list:
 #    df = df[df['Start Station ID'] == df['End Station ID']]
 
+st.subheader("Monthly Temp")
+
+# Create the interactive line plot with error bars using Plotly Express
+fig = px.line(
+    df[mask_selection], 
+    x='Month_Date', 
+    y='Temp'
+    )
+
+# Customize the plot layout
+fig.update_layout(
+    title='Interactive Line Plot with Error Bars',
+    xaxis_title='Temp Scaled',
+    yaxis_title='Year'#,
+    #legend='State Name'
+)
+
+
+# Display the plot in the Streamlit app
+st.plotly_chart(fig)
 
 ### A. Add a bar chart of usage per hour
 
