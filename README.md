@@ -42,19 +42,30 @@ This model shall predict the safest states for succeptible populations (respirat
 •	Data
 	 - Link to the datasets in Google Drive: https://drive.google.com/drive/folders/1Qh8JM_xaESutNF0Y1V1Fn3nYpuVVA1SW?usp=sharing 
 
-•	Notebooks
-	- 01_Data_Pull_EDA_AQI_Prediction.ipynb
-	- 02_Preliminary_Modeling.ipynb
+•	Notebooks:
+  - sprint_1
+  	- 01A_Data_Pull.ipynb
+  	- 01B_Preliminary_EDA.ipynb
+  	- 01C_Combined_File_EDA.ipynb
+  - sprint_2 
+    - 02A_Univariate_model.ipynb
+  - sprint_3
+    - 03A_Feature_Engineering_Scaling.ipynb
+    - 03B_Feature_Engineering_Multivariate_Tests.ipynb
+    - 03C_Multivariate_Models.ipynb
+    - 03D_Multivariate_Model_Optimized_Incomplete.ipynb
+    - 03E_Best_Model_Forecast.ipynb
+    - 03F_Streamlit_Images.ipynb
 	- timeseries.yml - kernel for notebooks
 
 •	Models
 	- Optimized univariate prophet models (1 per US state)
+	- Optimized multivariate models (1 per US state). Includes dataframe with lag information saved by state.
 	
 •	Streamlit
 	- The start of a streamlit script for data interactivity
 
 •	Credits & References
-		
 	1   United States Environmental Protection Agency: https://aqs.epa.gov/aqsweb/airdata/download_files.html
 	2	Kaggle for Daily AQI: https://www.kaggle.com/datasets/threnjen/40-years-of-air-quality-index-from-the-epa-daily
 	3	Data Dictionary: https://aqs.epa.gov/aqsweb/airdata/FileFormats.html
