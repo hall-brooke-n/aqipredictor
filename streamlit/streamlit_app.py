@@ -49,11 +49,13 @@ def load_data(path, num_rows):
     # Streamlit will only recognize 'latitude' or 'lat', 'longitude' or 'lon', as coordinates
     #df = df.rename(columns={'Latitude': 'lat', 'Longitude': 'lon'})  
     df['Year']  = df['Month_Date'].dt.year 
+    df['Month']  = df['Month_Date'].dt.month
+    df['Month_Date']  = pd.to_datetime(df['Month_Date']).dt.date
      
     return df
 
 ### B. Load first 50K rows
-df = load_data("/Users/brookehall/Documents/data/final_forecast_dataset_multivar.csv", 50000)
+df = load_data("/Users/brookehall/Documents/data/workingData/final_dataset_multivariate2.csv", 50000)
 
 # Load Sentiment
 #path2 = '/Users/brookehall/Desktop/Brainstation/Deliverables/CapstoneFolder/capstoneWorking/data/cleanData/'
@@ -64,50 +66,49 @@ df = load_data("/Users/brookehall/Documents/data/final_forecast_dataset_multivar
 #st.dataframe(combined_data)
 
 
-#st.dataframe(df_score)
+st.dataframe(df)
 
 
 #######################################################################################################################################
-### STATION MAP
 
-# Streamlit Cholorpleth Map title
+
+# Streamlit Choropleth Map title
 st.subheader('Interactive AQI Prediction Map of the United States')  
 
 # Add a brief description or instructions
 st.write('This choropleth map visualizes the average AQI by state over time.')    
 
 # To make trends easier to see, group by year
-aqi_state_year = df.groupby(['State Name', 'State Abbreviation', 'Year'])['aqi'].agg(['mean', 'max', 'min']).reset_index()
+aqi_state_year = df.groupby(['State Name', 'State Abbreviation', 'Month_Date', 'Year', 'Month'])['aqi'].mean().reset_index()
 
 # Create the yearly choropleth plot
-fig = px.choropleth(df, 
+fig = px.choropleth(aqi_state_year, 
                     locations='State Abbreviation', 
                     locationmode='USA-states',  # Assuming USA states
                     color='aqi', 
                     color_continuous_scale=px.colors.sequential.Blues, 
-                    animation_frame='Month_Date',  # Assuming 'Month_Date' column contains the dates
-                    title='Air Quality Index by State',
+                    animation_frame='Month_Date',  # Assuming 'Date' column contains the dates
+                    title='Average Air Quality Index by State',
                     scope='usa',
                     labels={'aqi': 'Average AQI', 'Month_Date': 'Date'}, # rename custom data for better readability
                     hover_name='State Name',  # Name shown in the hover label
                     custom_data=['aqi'],
-                    range_color = [0, 80])  # Additional data to include in the hover label
+                    range_color=[0, 80])  # Additional data to include in the hover label
 
 fig.update_layout(
-    margin={'r':0,'t':30,'l':0,'b':0},
+    margin={'r':0, 't':30, 'l':0, 'b':0},
     coloraxis_colorbar={'title':'AQI'}
 )
-    
 
 # Update hover label format
-#fig.update_traces(hovertemplate='<b>%{hovertext}</b><br><br>' +
- #                                'Average AQI: %{customdata[0]}<br>')
+fig.update_traces(hovertemplate='<b>%{hovertext}</b><br><br>' +
+                                 'Average AQI: %{customdata[0]}<extra></extra>')
 
 # Display the plot in the Streamlit app
 st.plotly_chart(fig)
 
 # Show the plot
-#fig.show()
+fig.show()
 
 #######################################################################################################################################
 ### DATA ANALYSIS & VISUALIZATION
